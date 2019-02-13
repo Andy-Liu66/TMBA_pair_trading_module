@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 class Analysis:
     
     def __init__(self, strategy):
