@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 class Strategy:
     
     def __init__(
@@ -24,13 +25,50 @@ class Strategy:
         return signal
     
     def __generate_position(self, signal, buy_or_short='buy'):
+
+        # 產生內部函數處理對沖比率
+        def __define_position_size():
+            # 依據信號出現時的index建立空的position_size
+            position_size = pd.DataFrame(
+                0,
+                index=self.__position_index,
+                columns=['stock_to_buy_position_size', 'stock_to_sellshort_position_size']
+            )
+
+            # 決定對沖比率
+            for i in self.__position_index:
+                current_stock_to_buy = self.stock_to_buy[self.trade_on][i]
+                current_stock_to_sellshort = self.stock_to_sellshort[self.trade_on][i]
+                # 使價格較高者部位為1，價格較低者部位則由高價除以低價並四捨五入
+                if current_stock_to_buy >= current_stock_to_sellshort:
+                    position_size.stock_to_buy_position_size[i] = 1
+                    position_size.stock_to_sellshort_position_size[i] = round(
+                        current_stock_to_buy/current_stock_to_sellshort
+                    )
+                else:
+                    position_size.stock_to_buy_position_size[i] = round(
+                        current_stock_to_sellshort/current_stock_to_buy
+                    )
+                    position_size.stock_to_sellshort_position_size[i] = 1
+            
+            # 上述作法同時考量進出場，但部位應只由進場決定
+            # 部位為兩兩一組，前者為進場後者為出場，因此將後者的值改為前者
+            for i in range(len(position_size)):
+                # 使用try以避免index out of range
+                try:
+                    position_size.iloc[2*i + 1] = position_size.iloc[2*i]
+                except:
+                    pass
+            # 以張為單位因此乘1000
+            return position_size * 1000
+
         has_position = False
         positions = pd.Series(0, index=signal.index)
         if buy_or_short == 'buy':
             position = 1
         elif buy_or_short == 'short':
             position = -1
-        
+
         # 若signal裡的condition_in出現進場訊號且沒有部位則進場
         # 若有部位且signal裡的condition_out出現出場訊號則平倉
         # 此種寫法尚未考量加減碼，透過buy_or_short決定建倉方向
@@ -43,7 +81,35 @@ class Strategy:
                 if has_position:
                     positions.iloc[i] = -1*position
                     has_position = False
+
+        # 儲存進出場信號出現時的index           
+        self.__position_index = positions[positions != 0].index
         
+        # __generate_position會在run中呼叫兩次
+        # 因此透過以下方法來判斷position_size是否已建立，避免再次執行(不影響結果但可能影響速度)
+        try:
+            # 若未被呼叫則會進到except進行呼叫
+            self.position_size != None
+        except:
+            if len(self.hedge_ratio) == 2 and type(self.hedge_ratio) == list:
+                position_size = pd.DataFrame(
+                    0,
+                    index=self.__position_index,
+                    columns=['stock_to_buy_position_size', 'stock_to_sellshort_position_size']
+                )
+                position_size.stock_to_buy_position_size = float(self.hedge_ratio[0]) * 1000
+                position_size.stock_to_sellshort_position_size = float(self.hedge_ratio[1]) * 1000
+                self.position_size = position_size
+            else:
+                self.position_size = __define_position_size()
+
+        # 由於position_size只包含有進出場時的部位(index較少)
+        # 因此乘上原先信號(0, 1, -1)時會有na出現，所以要fillna
+        if buy_or_short == 'buy':
+            positions = (self.position_size.stock_to_buy_position_size * positions).fillna(0)
+        elif buy_or_short == 'short':
+            positions = (self.position_size.stock_to_sellshort_position_size * positions).fillna(0)
+
         # 上述只標記進出場點位(未考量持倉狀況)且未考量買賣時機
         # 透過cumsum決定出部位狀況，例如：0,1,0,0,-1代表第二天出現進場訊號第五天出現出場訊號
         # cumsum後則變為0,1,1,1,0，意味在第二~四天時持有多頭部位
@@ -61,10 +127,10 @@ class Strategy:
         # 持倉狀況(position)→進場後為1(多)或-1(空)，空手為0。
         # 上述例子：na,0,1,1,1,0，為第三~五天時持有多頭部位
         if buy_or_short == 'buy':
-            position =  self.signal.stock_to_buy_position * 1000
+            position =  self.signal.stock_to_buy_position
             stock_price = self.stock_to_buy[self.trade_on]
         elif buy_or_short == 'short':
-            position =  self.signal.stock_to_sellshort_position * 1000
+            position =  self.signal.stock_to_sellshort_position
             stock_price = self.stock_to_sellshort[self.trade_on]
         
         # 持有部位大小乘上股價與後即為持有部位價值(holdings)
@@ -96,12 +162,17 @@ class Strategy:
         trade_table['cumulative_profit'] = cumulative_profit
         return trade_table
 
-    def run(self, stock_to_buy, stock_to_sellshort ,condition_in, condition_out):
+    def run(
+        self, stock_to_buy, stock_to_sellshort,
+        condition_in, condition_out,
+        hedge_ratio='auto'
+    ):
         self.stock_to_buy = stock_to_buy
         self.stock_to_sellshort = stock_to_sellshort
         self.condition_in = condition_in
         self.condition_out = condition_out
-        
+        self.hedge_ratio = hedge_ratio
+
         # 建立訊號
         self.signal = pd.DataFrame()
         self.signal['condition_in'] = self.__generate_signal(condition_in)
