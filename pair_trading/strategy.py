@@ -24,7 +24,7 @@ class Strategy:
             signal = condition & signal
         return signal
     
-    def __generate_position(self, signal, buy_or_short='buy'):
+    def __generate_position(self, buy_or_short='buy'):
 
         # 產生內部函數處理對沖比率
         def __define_position_size():
@@ -63,7 +63,7 @@ class Strategy:
             return position_size * 1000
 
         has_position = False
-        positions = pd.Series(0, index=signal.index)
+        positions = pd.Series(0, index=self.signal.index)
         if buy_or_short == 'buy':
             position = 1
         elif buy_or_short == 'short':
@@ -71,16 +71,18 @@ class Strategy:
 
         # 若signal裡的condition_in出現進場訊號且沒有部位則進場
         # 若有部位且signal裡的condition_out出現出場訊號則平倉
+        # 最外層的if用來避免進出場訊號同時出現(訊號會亂掉)
         # 此種寫法尚未考量加減碼，透過buy_or_short決定建倉方向
         for i in range(len(positions)):
-            if signal.condition_in.iloc[i] == True:
-                if not has_position:
-                    positions.iloc[i] = position
-                    has_position = True
-            elif signal.condition_out.iloc[i] == True:
-                if has_position:
-                    positions.iloc[i] = -1*position
-                    has_position = False
+            if self.signal.condition_in.iloc[i] != self.signal.condition_out.iloc[i]:
+                if self.signal.condition_in.iloc[i] == True:
+                    if not has_position:
+                        positions.iloc[i] = position
+                        has_position = True
+                if self.signal.condition_out.iloc[i] == True:
+                    if has_position:
+                        positions.iloc[i] = -1*position
+                        has_position = False
 
         # 儲存進出場信號出現時的index           
         self.__position_index = positions[positions != 0].index
@@ -179,8 +181,8 @@ class Strategy:
         self.signal['condition_out'] = self.__generate_signal(condition_out)
 
         # 建立部位
-        self.signal['stock_to_buy_position'] = self.__generate_position(self.signal, buy_or_short='buy')
-        self.signal['stock_to_sellshort_position'] = self.__generate_position(self.signal, buy_or_short='short')
+        self.signal['stock_to_buy_position'] = self.__generate_position(buy_or_short='buy')
+        self.signal['stock_to_sellshort_position'] = self.__generate_position(buy_or_short='short')
 
         # 儲存結果
         self.stock_to_buy_trade_table = self.__generate_trade_table(buy_or_short='buy')
