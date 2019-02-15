@@ -43,7 +43,7 @@ stock_2330.head()
 ```
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>id</th>      <th>name</th>      <th>date</th>      <th>open</th>      <th>high</th>      <th>low</th>      <th>close</th>      <th>volume</th>      <th>ma20</th>      <th>ma5</th>    </tr>  </thead>  <tbody>    <tr>      <th>0</th>      <td>2330</td>      <td>台積電</td>      <td>2001-01-09</td>      <td>22.59</td>      <td>23.22</td>      <td>22.59</td>      <td>23.22</td>      <td>44746</td>      <td>20.9190</td>      <td>21.894</td>    </tr>    <tr>      <th>1</th>      <td>2330</td>      <td>台積電</td>      <td>2001-01-10</td>      <td>23.47</td>      <td>23.71</td>      <td>23.09</td>      <td>23.47</td>      <td>33171</td>      <td>20.9440</td>      <td>22.568</td>    </tr>    <tr>      <th>2</th>      <td>2330</td>      <td>台積電</td>      <td>2001-01-11</td>      <td>23.71</td>      <td>23.84</td>      <td>22.97</td>      <td>23.09</td>      <td>36399</td>      <td>20.9690</td>      <td>22.942</td>    </tr>    <tr>      <th>3</th>      <td>2330</td>      <td>台積電</td>      <td>2001-01-12</td>      <td>23.22</td>      <td>23.47</td>      <td>23.09</td>      <td>23.47</td>      <td>27240</td>      <td>21.0440</td>      <td>23.118</td>    </tr>    <tr>      <th>4</th>      <td>2330</td>      <td>台積電</td>      <td>2001-01-15</td>      <td>23.47</td>      <td>23.59</td>      <td>23.09</td>      <td>23.59</td>      <td>25695</td>      <td>21.1315</td>      <td>23.368</td>    </tr>  </tbody></table>
 
-#### 策略物件(Strategy)：
+#### 撰寫進出場策略(Strategy)：
 ```python
 from pair_trading.basic_tool import lag, maximum, crossunder, preprocess
 # pair_trading.basic_tool中仍有minimum, crossover可使用
@@ -105,7 +105,7 @@ example_strategy.run(
 )
 ```
 
-#### 分析策略結果物件(Analysis)
+#### 分析策略結果(Analysis)
 ```python
 # 建立分析物件
 example_strategy_analysis = Analysis(
@@ -116,7 +116,7 @@ example_strategy_analysis = Analysis(
 # 進行分析
 example_strategy_analysis.run()
 ```
-#### 策略績效基本資訊
+##### 策略績效基本資訊
 ```python
 example_strategy_analysis.summary(
     # 檢視策略績效總結果，另有'buy'(做多交易), 'sellshort'(放空交易)
@@ -126,7 +126,7 @@ example_strategy_analysis.summary(
 
 <table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>total_profit</th>      <th>average_return</th>      <th>winning_rate</th>      <th>max_drowdown</th>      <th>average_holding_days</th>      <th>total_trade_num</th>    </tr>  </thead>  <tbody>    <tr>      <th>0</th>      <td>-13446.7115</td>      <td>-0.0156</td>      <td>0.451</td>      <td>91340.9822</td>      <td>39.5784</td>      <td>102</td>    </tr>  </tbody></table>
 
-#### 策略權益曲線
+##### 策略權益曲線
 ```python
 analysis_long.plot_equity_curve(
     # 另有'total'(總交易), 'sellshort'(放空交易)
@@ -136,7 +136,7 @@ analysis_long.plot_equity_curve(
 
 ![equity_curve](https://i.imgur.com/PF9yvnx.png)
 
-#### 策略獲利與虧損(每筆)
+##### 策略獲利與虧損(每筆)
 ```python
 analysis_long.plot_profit_and_loss_per_trade(
     # 另有'total'(總交易), 'buy'(做多交易)
@@ -144,7 +144,7 @@ analysis_long.plot_profit_and_loss_per_trade(
 )
 ```
 ![profit_and_loss](https://i.imgur.com/jc6Hloj.png)
-#### 詳細內容見example資料夾
+#### 詳細舉例內容見example資料夾
 
 ## 限制與改善方法：
 * **尚未考量加減碼**：
