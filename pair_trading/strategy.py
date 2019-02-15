@@ -2,6 +2,13 @@ import pandas as pd
 
 
 class Strategy:
+    '''
+    next_bar - 訊號出現後何時進出場，0為出現後馬上執行交易，1為下一個價格執行交易，2...以此類推
+    trade_on - 以甚麼價格進行交易
+    initial_capital - 初始資金(分析中沒有使用到)
+    tax_rate - 交易稅
+    cost - 交易成本
+    '''
     
     def __init__(
         self, next_bar=1, trade_on='close',
@@ -169,6 +176,15 @@ class Strategy:
         condition_in, condition_out,
         hedge_ratio='auto'
     ):
+        '''
+        stock_to_buy - condition_in成立時欲做多的股票
+        stock_to_sellshort - condition_in成立時欲放空的股票
+        condition_in - 進場訊號
+        condition_out - 出場訊號
+        hedge_ratio - 對沖比率，預設為auto，亦即將兩兩欲交易的價格進行比較(trade_on)，
+                      將價格較高者部位設為1，價格較低者部位則由高價除以低價並四捨五入
+                      也可以輸入list如；[2, 1]，將會以2:1的部位進行交易(stock_to_buy:stock_to_sellshort)
+        '''
         self.stock_to_buy = stock_to_buy
         self.stock_to_sellshort = stock_to_sellshort
         self.condition_in = condition_in
