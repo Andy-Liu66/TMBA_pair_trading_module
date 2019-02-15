@@ -143,7 +143,7 @@ analysis_long.plot_profit_and_loss_per_trade(
     select_result='sellshort'
 )
 ```
-![profit_and_loss](https://i.imgur.com/jc6Hloj.png)
+![profit_and_loss](https://i.imgur.com/IMZRh6J.png)
 #### 詳細舉例內容見example資料夾
 
 ## 限制與改善方法：
