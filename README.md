@@ -144,7 +144,7 @@ analysis_long.plot_profit_and_loss_per_trade(
 )
 ```
 ![profit_and_loss](https://i.imgur.com/IMZRh6J.png)
-#### 詳細舉例內容見example資料夾
+#### (詳細舉例內容見example資料夾)
 
 ## 限制與改善方法：
 * **尚未考量加減碼**：
