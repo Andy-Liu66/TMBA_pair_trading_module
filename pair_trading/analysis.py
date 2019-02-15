@@ -161,9 +161,9 @@ class Analysis:
         average_return = trade_result.net_return.mean()
         
         # 勝率
-        total_trade_num = len(trade_result)
+        total_trade_number = len(trade_result)
         win_trade_num = sum(trade_result.net_profit > 0)
-        winning_rate = win_trade_num/total_trade_num
+        winning_rate = win_trade_num/total_trade_number
         
         # 最大獲利回撤
         accumulate_profit = trade_result.net_profit.cumsum()
@@ -178,14 +178,14 @@ class Analysis:
             'winning_rate': winning_rate,
             'max_drowdown': max_drowdown,
             'average_holding_days': average_holding_days,
-            'total_trade_num': total_trade_num
+            'total_trade_number': total_trade_number
         }, columns=[
             'total_profit',
             'average_return',
             'winning_rate',
             'max_drowdown',
             'average_holding_days',
-            'total_trade_num'
+            'total_trade_number'
         ], index=[0])
         
         summary = summary.apply(lambda x: round(x, 4))
