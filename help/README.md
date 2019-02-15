@@ -36,9 +36,11 @@
   
 *cumsum(entry_exit_point * close)* 欄位僅記錄了進出過程的現金流狀況，因此cash也僅反應每筆交易所產生的現金流入流出(只反映已實現獲利/損失，未能反映潛在獲利/損益)，透過加上*holdings* 欄位(隨價格變動)得到*total* 欄位，便能得知整體帳戶價值概況(包含潛在獲利/損失)。
 
-執行__generate_trade_table()後產生的表格將存於stock_to_xxx_trade_table，而上述*total - cpaital* 欄位將存於*cumulative_profit* 欄位中，此欄位反映整體帳戶價值概況，但送進Analysis.py中計算淨利曲線時只會考量已實現獲利/損失，但仍可以呼叫此欄位以繪圖方式檢視整體帳戶價值(尚未寫此功能2019/2/15)。
+執行__generate_trade_table()後產生的表格將存於stock_to_xxx_trade_table，而上述*total - cpaital* 欄位將存於*cumulative_profit* 欄位中，此欄位反映整體帳戶價值概況，但送進Analysis物件中計算淨利曲線時只會考量已實現獲利/損失，但仍可以呼叫此欄位以繪圖方式檢視整體帳戶價值(尚未寫此功能2019/2/15)。
 
 **備註：**
 * help資料夾中有excel範例檔
 
 * 上述表格中的*stock_to_buy_position* 欄位已於__generate_position()中考量next_bar參數
+
+* 上述表格尚未考量交易成本，將於送進Analysis物件後考量
