@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Analysis:
+    '''
+    strategy - 輸入欲分析的策略(策略物件中含有交易表格，送入Analysis物件進行分析)
+    '''
     
     def __init__(self, strategy):
         self.strategy = strategy
@@ -98,6 +101,9 @@ class Analysis:
         return trade_result
     
     def run(self):
+        '''
+        執行分析
+        '''
         # 做多交易結果
         self.stock_to_buy_trade_result = self.__parse_trade_result(buy_or_short='buy')
 
