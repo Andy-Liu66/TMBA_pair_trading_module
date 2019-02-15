@@ -28,6 +28,8 @@ def preprocess(stock_1, stock_2):
     date_index = stock_1.merge(stock_2, on='date')['date']
     stock_1 = stock_1[stock_1.date.isin(date_index)]
     stock_1.reset_index(inplace=True, drop=True)
+    stock_1.sort_values(by='date', inplace=True)
     stock_2 = stock_2[stock_2.date.isin(date_index)]
     stock_2.reset_index(inplace=True, drop=True)
+    stock_2.sort_values(by='date', inplace=True)
     return stock_1, stock_2

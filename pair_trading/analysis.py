@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+plt.style.use('seaborn')
 
 class Analysis:
     '''
@@ -176,13 +177,15 @@ class Analysis:
             'average_return': average_return,
             'winning_rate': winning_rate,
             'max_drowdown': max_drowdown,
-            'average_holding_days': average_holding_days
+            'average_holding_days': average_holding_days,
+            'total_trade_num': total_trade_num
         }, columns=[
             'total_profit',
             'average_return',
             'winning_rate',
             'max_drowdown',
-            'average_holding_days'
+            'average_holding_days',
+            'total_trade_num'
         ], index=[0])
         
         summary = summary.apply(lambda x: round(x, 4))

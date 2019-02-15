@@ -5,9 +5,9 @@ class Strategy:
     '''
     next_bar - 訊號出現後何時進出場，0為出現後馬上執行交易，1為下一個價格執行交易，2...以此類推
     trade_on - 以甚麼價格進行交易
-    initial_capital - 初始資金(分析中沒有使用到)
+    initial_capital - 初始資金(後續分析中沒有使用到)
     tax_rate - 交易稅
-    cost - 交易成本
+    cost - 交易成本(率)
     '''
     
     def __init__(
