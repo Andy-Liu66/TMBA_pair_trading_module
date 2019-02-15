@@ -193,7 +193,7 @@ example_strategy_analysis.plot_profit_and_loss_per_trade(
 
 * **更彈性的進出場時間點**：
 
-  若要改何時進場則須改*strategy.py*中__generate_position()裡的for loop，在標記的時候改*.iloc[i+x]*即可(須注意在資料最後出現訊號則可能有error)，但通常會用next bar進場(因此目前沒寫，2019/2/16)，若改了則*positions.cumsum().shift()*也須改掉。
+  若要改何時進場則須改*strategy.py*中__generate_position()裡的for loop，在標記的時候改.iloc[i+x]即可(須注意在資料最後出現訊號則可能有error)，但通常會用next bar進場(因此目前沒寫，2019/2/16)，若改了則positions.cumsum().shift()也須改掉。
 
 ## 參考資料：
 * **進出場寫法**：
