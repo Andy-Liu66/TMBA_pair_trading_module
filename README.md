@@ -143,7 +143,32 @@ example_strategy_analysis.plot_profit_and_loss_per_trade(
 )
 ```
 ![profit_and_loss](https://i.imgur.com/IMZRh6J.png)
-#### (詳細舉例內容見example資料夾)
+
+(詳細舉例內容見example資料夾)
+
+**備註：**
+* 目前只能針對股票做單邊買賣，strategy.run()中第一個輸入的參數為*stock_to_buy*為進場條件達成便做多的股票，第二個參數*stock_to_sellshort*則為相對於*stock_to_buy*而放空的股票，因此兩者部位放向完全相反，在一個策略中*stock_to_buy*的股票只會一直做多，而*stock_to_sellshort*則只會做空，例如：一個策略中，條件符合時做多台積電並放空另一支股票，在同個策略下就不會做空台積電然後做多另一支股票。
+  
+  若策略邏輯是想要condition_out出現時就放空原先*stock_to_buy*的股票(因此做多原先*stock_to_sellshort*的股票)，則只需要更改建立*strategy*物件的順序。延續Demo的例子，若想要放空台積電並做多台泥則更改程式碼如下(在condition_in, condition_out不變下)：
+
+  ```python
+  # 開始回測
+  example_strategy.run(
+      # condition_in成立時欲做多的股票
+      stock_1101,
+      # condition_out成立時欲放空的股票
+      stock_2330,
+      # 進場訊號
+      condition_out,
+      # 出場訊號
+      condition_in,
+  )
+  ```
+
+  也就是將原先的出場策略變成台泥的進場做多策略，此時台積電則變成放空，而原先的出場策略則變為台泥多單出場訊號，對台積電而言則是空單平倉訊號。如此，便能達成單一股票多單空單皆能執行，但如此一來便會產生兩個*strategy*，績效衡量上則得分開看，解決方案為另外寫一個class把上述兩*strategy*包起來，便能視為同一策略，以進行後續分析。
+  **(但實際正確性仍需檢查)**
+
+* 此模組不只用適用配對交易，也可檢視基本做多策略，因為寫法如上述只會對同一股票做同樣方向的單(配對的股票空頭部位完全相反於做多股票)，因此在績效分析中只需將*select_result*設定為*buy*，即可檢視只考量做多情況下的策略績效。
 
 ## 限制與改善方法：
 * **尚未考量加減碼**：
@@ -161,8 +186,6 @@ example_strategy_analysis.plot_profit_and_loss_per_trade(
 * **更彈性的進出場時間點**：
 
   若要改何時進場則須改__generate_position()裡的for loop標記的時候改.iloc[i+x]即可(須注意載資料最後出現訊號則可能有error，但通常會用next bar進場因此目前沒寫)，若改了則positions.cumsum().shift()也須改掉。
-
-* 目前只能針對商品做單邊買賣，例如：條件符合時買台積電並空另一支股票，就不能賣台積電然後多另一支股票
 
 ## 參考資料：
 * **進出場寫法**：
