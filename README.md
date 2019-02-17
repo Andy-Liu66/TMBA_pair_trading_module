@@ -195,6 +195,11 @@ example_strategy_analysis.plot_profit_and_loss_per_trade(
 
   若要改何時進場則須改*strategy.py*中__generate_position()裡的for loop，在標記的時候改.iloc[i+x]即可(須注意在資料最後出現訊號則可能有error)，但通常會用next bar進場(因此目前沒寫，2019/2/16)，若改了則positions.cumsum().shift()也須改掉。
 
+## 有疑慮的地方：
+* 在分析對沖組合每筆交易報酬率時，使用相加(做多的報酬率加放空的報酬率)的方式似乎有些奇怪，做多與放空各自報酬率皆以進場價為基準(分母)
+* 可以畫持倉過程的總權益(cash + holdings)概況
+* 可以分析*cash*的狀況，例如：在買股票時是否會出現現金水位不夠的狀況(目前未考量放空的保證金問題，否則也可看是否會被斷頭的問題)
+
 ## 參考資料：
 * **進出場寫法**：
   * [victorgau's GitHub](https://github.com/victorgau/PyConTW2018Tutorial/blob/master/06.%20strategies/%E9%80%B2%E5%87%BA%E5%A0%B4%E7%AD%96%E7%95%A5.ipynb)
