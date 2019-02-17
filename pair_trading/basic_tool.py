@@ -1,18 +1,35 @@
 def lag(series, periods=1):
+    '''
+    將序列值落後一期
+    '''
     return series.shift(periods=periods)
 
 def maximum(series, window=5):
+    '''
+    回傳輸入序列中給定窗格下的最大值
+    '''
     return series.rolling(window=window).max()
 
 def minimum(series, window=5):
+    '''
+    回傳輸入序列中給定窗格下的最小值
+    '''
     return series.rolling(window=window).min()
 
 def crossover(series_1, series_2):
+    '''
+    回傳符合序列一黃金交叉序列二的值
+    (序列一的t-1期值小於序列二的t-1期值，且序列一t期值大於序列二t期值)
+    '''
     past = lag(series_1, periods=1) < lag(series_2, periods=1)
     now = series_1 > series_2
     return past & now
 
 def crossunder(series_1, series_2):
+    '''
+    回傳符合序列一死亡交叉序列二的值
+    (序列一的t-1期值大於序列二的t-1期值，且序列一t期值小於序列二t期值)
+    '''
     past = lag(series_1, periods=1) > lag(series_2, periods=1)
     now = series_1 < series_2
     return past & now
