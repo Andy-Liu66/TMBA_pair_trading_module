@@ -1,25 +1,22 @@
 # Taiwan Quant beta
 ## 簡介
 此為台灣股票回測平台，由TMBA 19th程式交易部合力完成，透過撰寫expression產生回測訊號，共有以下檔案(data放置於於雲端硬碟中)：
-  * **alpha_platform_beta[https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/alpha_platform_beta.py]**:
+  * [**alpha_platform_beta**](https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/alpha_platform_beta.py):
     
-	存放主要程式碼
-  * **Operators[https://github.com/Andy-Liu66/TMBA_pair_trading_module/tree/master/Taiwan%20Quant%20beta/Operators]**:
+	  存放主要程式碼
+  * [**Operators**](https://github.com/Andy-Liu66/TMBA_pair_trading_module/tree/master/Taiwan%20Quant%20beta/Operators):
   
- 	存放撰寫expression的Operators
-
-  * **basic_tool[https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/basic_tool.py]**:
+ 	  存放撰寫expression的Operators
+  * [**basic_tool**](https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/basic_tool.py):
     
-	存放策略撰寫過程所需function
-
-  * **Alpha_plot[https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/Alpha_plot.py]**:
+	  存放策略撰寫過程所需function
+  * [**Alpha_plot**](https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/Alpha_plot.py):
   
     存放績效視覺化class
-  * **help[https://github.com/Andy-Liu66/TMBA_pair_trading_module/tree/master/Taiwan%20Quant%20beta/help]**:
+  * [**help**](https://github.com/Andy-Liu66/TMBA_pair_trading_module/tree/master/Taiwan%20Quant%20beta/help):
   
     存放損益計算方式說明
-
-  * **example[https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/example.ipynb]**
+  * [**example**](https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/example.ipynb)
    
     存放Demo檔
 ## 要求
