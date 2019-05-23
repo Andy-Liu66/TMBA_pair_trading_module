@@ -61,10 +61,13 @@ def expression():
     # 依據給定max_look_back值，回推資料區間(由現在回推至t-max_look_back期)
     # 之後便可透過used_data進行後續運算
     used_data = test_platform.get_used_data()
+
     # 可透過select_data功能選擇欲使用的資料
     eps = select_data(used_data, "每股盈餘 (元)")
+
     # 依據最新一期eps資料丟到sigmoid函數後產生權重
     temp_weights = sigmoid(eps[-1])
+    
     # 將權重正規劃並指定回上面建立的alpha_platform物件中的weights
     test_platform.weights = neturalize_weights(temp_weights)
 ```
