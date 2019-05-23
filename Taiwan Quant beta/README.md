@@ -1,25 +1,25 @@
 # Taiwan Quant beta
 ## 簡介
 此為台灣股票回測平台，由TMBA 19th程式交易部合力完成，透過撰寫expression產生回測訊號，共有以下檔案(data放置於於雲端硬碟中)：
-  * **alpha_platform_beta**:
+  * **alpha_platform_beta[https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/alpha_platform_beta.py]**:
     
 	存放主要程式碼
-  * **Operators**:
+  * **Operators[https://github.com/Andy-Liu66/TMBA_pair_trading_module/tree/master/Taiwan%20Quant%20beta/Operators]**:
   
  	存放撰寫expression的Operators
 
-  * **basic_tool**:
+  * **basic_tool[https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/basic_tool.py]**:
     
 	存放策略撰寫過程所需function
 
-  * **Alpha_plot**:
+  * **Alpha_plot[https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/Alpha_plot.py]**:
   
     存放績效視覺化class
-  * **help**:
+  * **help[https://github.com/Andy-Liu66/TMBA_pair_trading_module/tree/master/Taiwan%20Quant%20beta/help]**:
   
     存放損益計算方式說明
 
-  * **example**
+  * **example[https://github.com/Andy-Liu66/TMBA_pair_trading_module/blob/master/Taiwan%20Quant%20beta/example.ipynb]**
    
     存放Demo檔
 ## 要求
@@ -118,7 +118,7 @@ plot_sharpe_ratio_return(alpha_platform=test_platform)
 ![drawdown](https://i.imgur.com/SHjAGK1.png)
 
 #### 檢視策略年化資訊
-<table border="1" class="dataframe">\\n  <thead>\\n    <tr style="text-align: right;">\\n      <th></th>\\n      <th>fitness</th>\\n      <th>long\_short\_count</th>\\n      <th>returns</th>\\n      <th>sharpe_ratio</th>\\n      <th>turnover</th>\\n      <th>year</th>\\n    </tr>\\n  </thead>\\n  <tbody>\\n    <tr>\\n      <th>0</th>\\n      <td>3.488575</td>\\n      <td>[3.41588785047, 6.16822429907]</td>\\n      <td>1.919475</td>\\n      <td>1.003505</td>\\n      <td>0.158828</td>\\n      <td>2001</td>\\n    </tr>\\n    <tr>\\n      <th>1</th>\\n      <td>5.419819</td>\\n      <td>[7.04838709677, 2.95161290323]</td>\\n      <td>2.652236</td>\\n      <td>1.408819</td>\\n      <td>0.179206</td>\\n      <td>2002</td>\\n    </tr>\\n    <tr>\\n      <th>2</th>\\n      <td>-4.775621</td>\\n      <td>[4.47791164659, 6.04417670683]</td>\\n      <td>-2.667819</td>\\n      <td>-1.243848</td>\\n      <td>0.180980</td>\\n      <td>2003</td>\\n    </tr>\\n    <tr>\\n      <th>3</th>\\n      <td>-3.646221</td>\\n      <td>[3.488, 7.512]</td>\\n      <td>-2.038759</td>\\n      <td>-0.857610</td>\\n      <td>0.112787</td>\\n      <td>2004</td>\\n    </tr>\\n    <tr>\\n      <th>4</th>\\n      <td>3.219523</td>\\n      <td>[7.45748987854, 3.54251012146]</td>\\n      <td>1.046574</td>\\n      <td>0.732804</td>\\n      <td>0.054220</td>\\n      <td>2005</td>\\n    </tr>\\n  </tbody>\\n</table>
+<table border="1" class="dataframe">  <thead>    <tr style="text-align: right;">      <th></th>      <th>fitness</th>      <th>long\_short\_count</th>      <th>returns</th>      <th>sharpe_ratio</th>      <th>turnover</th>      <th>year</th>    </tr>  </thead>  <tbody>    <tr>      <th>0</th>      <td>3.488575</td>      <td>[3.41588785047, 6.16822429907]</td>      <td>1.919475</td>      <td>1.003505</td>      <td>0.158828</td>      <td>2001</td>    </tr>    <tr>      <th>1</th>      <td>5.419819</td>      <td>[7.04838709677, 2.95161290323]</td>      <td>2.652236</td>      <td>1.408819</td>      <td>0.179206</td>      <td>2002</td>    </tr>    <tr>      <th>2</th>      <td>-4.775621</td>      <td>[4.47791164659, 6.04417670683]</td>      <td>-2.667819</td>      <td>-1.243848</td>      <td>0.180980</td>      <td>2003</td>    </tr>    <tr>      <th>3</th>      <td>-3.646221</td>      <td>[3.488, 7.512]</td>      <td>-2.038759</td>      <td>-0.857610</td>      <td>0.112787</td>      <td>2004</td>    </tr>    <tr>      <th>4</th>      <td>3.219523</td>      <td>[7.45748987854, 3.54251012146]</td>      <td>1.046574</td>      <td>0.732804</td>      <td>0.054220</td>      <td>2005</td>    </tr>  </tbody></table>
 
 ## 說明
 * 權重在撰寫expression中生成，由於權重產生後會乘以initial cash得到該股票被分配的親額，接著再依據此金額除以其收盤價決定股數，在程式會判斷若權重相同則沿用首次出現此權重的股數(與最初版本方式不同)，目的是在權重相同的情況下，不會因為收盤價的變動而出現更改股數的狀況，會導致過於頻繁的重新平衡，而產生過多交易成本。
